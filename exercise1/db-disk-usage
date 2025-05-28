@@ -1,0 +1,8 @@
+purple-rocky | CHANGED | rc=0 >>
+Filesystem           Size  Used Avail Use% Mounted on
+devtmpfs             4.0M     0  4.0M   0% /dev
+tmpfs                888M     0  888M   0% /dev/shm
+tmpfs                355M  5.0M  351M   2% /run
+/dev/mapper/rl-root   17G  1.3G   16G   8% /
+/dev/sda1            960M  230M  731M  24% /boot
+tmpfs                178M     0  178M   0% /run/user/1000

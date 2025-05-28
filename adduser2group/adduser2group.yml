@@ -1,0 +1,11 @@
+- name: Add user to docker group
+  hosts: all
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: add the group credentials
+      user:
+        name: mehran
+        groups: docker
+        append: yes
+

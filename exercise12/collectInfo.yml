@@ -1,0 +1,40 @@
+---
+
+- name: data collection 
+  hosts: all
+  gather_facts: false
+  become: yes
+  vars_files: 
+    - gather_facts_vars.yml
+  tasks:
+    - name : gather OS family only
+      setup:
+        filter:
+          - ansible_os_family
+          - ansible_processor
+          - ansible_memtotal_mb
+          - ansible_hostname
+
+    - name: store data in VM
+      copy:
+        dest: "{{ remote_facts_file }}"
+        content: |
+          Hostname: {{ ansible_facts['hostname'] }}
+          OS family: {{ ansible_facts['os_family'] }}
+          CPU: {{ ansible_facts['processor'][1] | default(ansible_facts['processor'][0]) }}
+          Memory: {{ ansible_facts['memtotal_mb'] }} MB
+        mode: '0644'
+
+    - name: Create directory on control node to store data inside
+      delegate_to: localhost
+      become: false
+      run_once: true
+      file: 
+        path: "{{ local_directory }}" 
+        state: directory
+
+    - name: fetch data to control node
+      fetch:
+        src: "{{ remote_facts_file }}"
+        dest: " {{ local_directory }}"
+        flat: yes

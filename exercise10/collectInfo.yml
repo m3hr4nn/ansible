@@ -1,0 +1,59 @@
+---
+
+- name: data collection 
+  hosts: all
+  gather_facts: false
+  become: yes
+
+  tasks:
+    - name : gather OS family only
+      setup:
+        filter:
+          - ansible_os_family
+          - ansible_processor
+          - ansible_memtotal_mb
+          - ansible_hostname
+
+    - name: show Hostname
+      debug:
+        msg: "Hostname: {{ ansible_facts['hostname'] }}"
+
+    - name: Show OS family
+      debug:
+        msg: "The OS family is {{ ansible_facts['os_family'] }} "
+          
+    - name: show Processor info
+      debug:
+        msg: "CPU: {{ ansible_facts['processor'][1] | default(ansible_facts['processor'][0]) }}"
+
+    - name: show total memory
+      debug:
+        msg: "Total memory = {{ ansible_facts['memtotal_mb'] }} MB" 
+
+    - name: store data in VM
+      copy:
+        dest: "/tmp/{{ansible_facts['hostname']}}.info"
+        content: |
+          Hostname: {{ ansible_facts['hostname'] }}
+          OS family: {{ ansible_facts['os_family'] }}
+          CPU: {{ ansible_facts['processor'][1] | default(ansible_facts['processor'][0]) }}
+          Memory: {{ ansible_facts['memtotal_mb'] }} MB
+        mode: '0644'
+
+    - name: Create directory on control node to store data inside
+      delegate_to: localhost
+      become: false
+      run_once: true
+      file: 
+        path: "./collected_info" 
+        state: directory
+
+    - name: fetch data to control node
+      fetch:
+        src: "/tmp/{{ ansible_facts['hostname'] }}.info"
+        dest: "./collected_info/"
+        flat: yes
+  
+
+
+

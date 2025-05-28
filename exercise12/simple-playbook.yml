@@ -1,0 +1,13 @@
+---
+
+- name: Test group_vars and host_vars
+  hosts: websrvgrp
+  gather_facts: false
+  tasks:
+    - name: show group var
+      debug:
+        var: group_var_msg
+
+    - name: show host var
+      debug:
+        var: host_var_msg

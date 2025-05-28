@@ -1,0 +1,28 @@
+---
+
+- name: fix VM time with control machine
+  hosts: all
+  become: yes
+  vars:
+    control_date: "{{ lookup('pipe', 'date \"+%Y-%m-%d %H:%M:%S\"') }}"
+
+  tasks:
+    - name: fix timezone
+      copy:
+        src: /etc/timezone
+        dest: /etc/timezone
+
+    - name: fix timedate control TZ data
+      command: 'timedatectl set-timezone Asia/Tehran'
+
+    - name: setup VM time
+      command: date -s "{{ control_date }}"
+
+    - name: acquire new date
+      command: date
+      register: current_date
+
+    - name: show new date
+      debug: 
+        msg: "VM date and time is: {{ current_date.stdout }}"
+    

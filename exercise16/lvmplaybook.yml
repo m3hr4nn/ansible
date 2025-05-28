@@ -1,0 +1,41 @@
+---
+
+- name: LVM configuration on Purple-Rocky host
+  hosts: purple-rocky
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: Create a physical volume
+      command: pvcreate /dev/sdb
+      register: pv_result
+      ignore_errors: true
+
+    - name: Create a volume group
+      command: vgcreate vg_data /dev/sdb
+      when: pv_result.rc == 0
+      register: vg_result
+      ignore_errors: true
+
+    - name: Create logical volume
+      command: lvcreate -L 1G -n lv_data vg_data
+      when: vg_result.rc == 0
+      ignore_errors: true
+
+    - name: Format lv with ext4
+      filesystem:
+        fstype: ext4
+        dev: /dev/vg_data/lv_data
+
+    - name: Create mount point
+      file: 
+        path: /mnt/data
+        state: directory
+
+    - name: Mount the lv
+      mount: 
+        path: /mnt/data
+        src: /dev/vg_data/lv_data
+        fstype: ext4
+        state: mounted
+
+...

@@ -1,0 +1,11 @@
+- hosts: all
+  tasks:
+    - name: set local NTP server
+      lineinfile:
+        path: /etc/chrony.conf
+        regexp: '^server'
+        line: 'server 192.168.1.100 iburst'
+    - name: restart chronyd
+      service:
+        name: chronyd
+        state: restarted

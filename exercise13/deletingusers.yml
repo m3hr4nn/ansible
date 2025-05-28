@@ -1,0 +1,25 @@
+---
+
+- name: Provisioning users
+  hosts: all
+  become: yes
+  tasks:
+
+  - name: deleting group
+    group:
+      name: "{{WEBGROUPNAME}}"
+      state: absent
+
+  - name: deleting common users
+    user:
+      name: "{{item}}"
+      state: absent
+    loop:
+      - user1
+      - user2
+      - user3
+
+  - name: deleting DBGROUPNAME group
+    group:
+      name: "{{DBGROUPNAME}}"
+      state: absent

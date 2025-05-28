@@ -1,0 +1,12 @@
+---
+- name: Expland logical volume to 2GB 
+  hosts: purple-rocky
+  become: true
+  tasks:
+    #- name: Resize lv to 1.9G
+      #command: lvresize -L 1.9G /dev/vg_data/lv_data -y
+
+    - name: Resize ext4 fs
+      command: resize2fs /dev/vg_data/lv_data
+
+...

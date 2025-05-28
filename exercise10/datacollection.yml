@@ -1,0 +1,21 @@
+---
+
+- name: data collection 
+  hosts: all
+  gather_facts: false
+  become: yes
+
+  tasks:
+    - name: acquire host info
+      setup:
+        gather_subset:
+          - virtual
+          - default_ipv4
+          - date_time
+          - os_family
+        register: facts
+
+    - name: show collected data
+      debug:
+        msg: " the collected data is {{ facts }} " 
+

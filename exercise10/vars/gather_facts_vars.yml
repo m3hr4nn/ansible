@@ -1,0 +1,2 @@
+remote_facts_file: /tmp/system_facts_{{ inventory_hostname }}.json
+local_directory: ./fetched_facts

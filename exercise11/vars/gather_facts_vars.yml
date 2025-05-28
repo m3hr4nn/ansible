@@ -1,0 +1,4 @@
+# gather_facts_vars.yml
+
+remote_facts_file: /tmp/{{ ansible_facts['hostname'] }}.txt
+local_directory: ./collected_info/

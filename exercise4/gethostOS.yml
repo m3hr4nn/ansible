@@ -1,0 +1,11 @@
+- name: Gather facts from all hosts
+
+  hosts: all
+
+  tasks:
+
+    - name: Classify hosts depending on their OS distribution
+
+      group_by:
+
+        key: OS_{{ ansible_facts['distribution'] }}

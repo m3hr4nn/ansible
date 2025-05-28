@@ -1,0 +1,8 @@
+---
+ - name: clear temporary data
+   hosts: all
+   gather_facts: false
+   become: yes
+   tasks:
+     - name: delete /tmp/*.info
+       shell: rm -f /tmp/*info

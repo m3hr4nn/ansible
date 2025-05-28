@@ -1,0 +1,24 @@
+---
+
+- name: setup webservers
+  hosts: websrvgrp
+  become: yes
+  tasks:
+    - name: check Apache https
+      yum:
+        name: httpd
+        state: present
+    - name: start and enable HTTPD
+      service: 
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: copy index file
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
+        backup: yes      

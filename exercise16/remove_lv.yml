@@ -1,0 +1,13 @@
+---
+- name: Remove lvm partition
+  hosts: purple-rocky
+  become: yes
+  tasks: 
+    - name: Unmount the partition
+      mount: 
+        path: /mnt/data
+        state: unmounted
+
+    - name:    
+
+...

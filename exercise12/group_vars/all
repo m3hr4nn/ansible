@@ -1,0 +1,2 @@
+group_var_msg: "Hello from gpvars!"
+host_var_msg: "Hello from group_vars/hstvars!"

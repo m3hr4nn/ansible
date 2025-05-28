@@ -1,0 +1,19 @@
+---
+
+- name: File management
+  hosts: websrvgrp
+  become: yes
+  tasks:
+    - name: copy a file name app.conf
+      copy:
+        src: /home/mehran/ansible/exercise6/app.conf
+        dest: /home/ansibleadmin
+
+    - name: create a directory
+      file:
+        path: /opt/ansible/configs
+        state: directory
+        owner: ansibleadmin
+        group: devops
+        mode: '0755'
+

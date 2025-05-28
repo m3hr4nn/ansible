@@ -1,0 +1,14 @@
+---
+
+- name: crontab for 5 minute date check
+  hosts: dbsrvgrp
+  become: yes
+  tasks:
+    - name: create file in /etc/cron.d
+      cron:
+        name: 5 minute cron
+        minute: "*/5"
+        user: ansibleadmin
+        job: "date >> /home/ansibleadmin/ansible-date.log"
+        cron_file: ansible_5_min_date
+

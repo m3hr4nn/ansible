@@ -1,0 +1,16 @@
+--- 
+
+- name: Create devopsadmin user
+  user: 
+      name: "{{ USRNM }}"
+      password: "{{ USRPASS }}"
+      state: present
+      groups: wheel
+
+- name: Add devopsadmin in sudoers.d 
+  copy: 
+      dest: /etc/sudoers.d/{{ USRNM }}
+      content: "{{ USRNM }} ALL=(ALL) NOPASSWD:ALL"
+      mode: '0440'
+      user: root
+      group: root

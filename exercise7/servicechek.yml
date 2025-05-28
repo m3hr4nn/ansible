@@ -1,0 +1,10 @@
+---
+
+- name: SSH service check
+  hosts: all
+  tasks:
+    - name: service module check
+      service:
+        name: sshd
+        state: started
+

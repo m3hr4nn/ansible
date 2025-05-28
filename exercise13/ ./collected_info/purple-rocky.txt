@@ -1,0 +1,4 @@
+Hostname: purple-rocky
+OS family: RedHat
+CPU: GenuineIntel
+Memory: 1774 MB

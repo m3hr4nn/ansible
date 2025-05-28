@@ -1,0 +1,18 @@
+---
+
+- name: User and group management
+  hosts: all
+  become: yes
+  tasks:
+    - name: create a group called devops
+      ansible.builtin.group:
+        name: devops
+
+    - name: create a group called ansibleadmin
+      ansible.builtin.user:
+        name: ansibleadmin
+        createhome: true
+        home: /home/ansibleadmin
+        group: devops
+        shell: /bin/bash
+

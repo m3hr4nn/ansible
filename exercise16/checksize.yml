@@ -1,0 +1,13 @@
+---
+- name: Check available free space in VG
+  become: yes
+  hosts: all
+  tasks:
+    - name: Vgs size checking
+      command: vgs --noheadings -o vg_free
+      register: vg_free_output
+
+    - name: Debug VG free space
+      debug:
+        msg: "Free space  in VG {{ vg_free_output.stdout }}"
+...

@@ -1,0 +1,33 @@
+---
+
+- name: Provisioning users
+  hosts: all
+  become: yes
+  tasks:
+
+  - name: creating group
+    group:
+      name: "{{WEBGROUPNAME}}"
+      state: present 
+
+  - name: creating common users
+    user:
+      name: "{{item}}"
+      state: present
+      groups: "{{WEBGROUPNAME}}"
+    loop:
+      - user1
+      - user2
+      - user3
+
+  - name: creating DB-TEAM group
+    group:
+      name: "{{DBGROUPNAME}}"
+      state: present
+
+  - name: creating common user between OS and DB
+    user:
+      name: "{{DBUSERNAME}}"
+      groups: 
+        - "{{WEBGROUPNAME}}"
+        - "{{DBGROUPNAME}}"

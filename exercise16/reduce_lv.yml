@@ -1,0 +1,27 @@
+---
+- name: Reduce lv size safely to 1GB
+  hosts: purple-rocky
+  become: yes
+  tasks:
+    - name: Unmount the lv
+      mount:
+        path: /mnt/data
+        state: unmounted
+
+    - name: Check fs before shrinking
+      command: e2fsck -f -y /dev/vg_data/lv_data
+
+    - name: Resize fs to 1GB
+      command: resize2fs /dev/vg_data/lv_data 1G
+
+    - name: Reduce lv to 1GB
+      command: lvreduce -L 1G /dev/vg_data/lv_data -y
+
+    - name: Remount the lv
+      mount: 
+        path: /mnt/data
+        src: /dev/vg_data/lv_data
+        fstype: ext4
+        state: mounted
+
+...
