@@ -1,2 +1,2 @@
-# ansible
-my ansible exercise
+# Intro
+my personal ansible exercises
